@@ -25,8 +25,8 @@ const btnAddToSlider = document.querySelector('.btn-sliderAdd');
 const btnAddImage = document.querySelector('.btn-addImage');
 let openModalBtn;
 
-///////////////////////////////
-/// ADD NEW IMAGE
+///////////////////////////////////////////////////////////////////////
+////////// ADD IMAGE
 const addImage = function () {
   clothesView.render(availableImages[0]);
   clothes.push(availableImages[0]);
@@ -35,7 +35,6 @@ const addImage = function () {
   if (availableImages.length === 0) btnAddImage.classList.add('hidden');
   initiateModal();
 };
-btnAddImage.addEventListener('click', addImage);
 
 ///////////////////////////////////////////////////////////////////////
 ////////// DISPLAY SLIDER ITEMS AND CLOTHES
@@ -63,12 +62,6 @@ const showClothes = async function () {
   }
 };
 
-const init = () => {
-  sliderView.goToSlide(0);
-  sliderView.createDots();
-  sliderView.activateDot(0);
-};
-
 const displayClothes = function () {
   return new Promise(function (resolve, reject) {
     resolve(showClothes(clothesRow));
@@ -92,8 +85,15 @@ const initiateModal = () => {
   );
 };
 
+const init = () => {
+  sliderView.goToSlide(0);
+  sliderView.createDots();
+  sliderView.activateDot(0);
+};
+
 ///////////////////////////////////////////////////////////////////////
-/////////////////STICKY HEADER
+////////////////  STICKY HEADER
+
 const obsCallback = entries => {
   const [entry] = entries;
   if (!entry.isIntersecting) nav.classList.add('sticky');
@@ -110,11 +110,6 @@ headerObserver.observe(header);
 ///////////////////////////////////////////////////////////////////////
 ///////////////  EVENT HANDLERS
 
-initiateSlider().then(() => init());
-displayClothes().then(() => {
-  initiateModal();
-});
-
 goToSection.addEventListener('click', function (e) {
   e.preventDefault();
 
@@ -123,6 +118,11 @@ goToSection.addEventListener('click', function (e) {
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
 });
+
+btnAddImage.addEventListener('click', addImage);
+
+///////////////////////////////////////////////////////////////////////
+///////////////  SLIDER EVENT HANDLERS
 
 btnRight.addEventListener('click', sliderView.nextSlide.bind(sliderView));
 btnLeft.addEventListener('click', sliderView.prevSlide.bind(sliderView));
@@ -155,9 +155,11 @@ btnRemove.addEventListener('click', function (e) {
 btnUpdate.addEventListener('click', function (e) {
   modalView.updateImage(e);
 });
+
 btnUpdateDescription.addEventListener('click', function (e) {
   modalView.updateDescription(e);
 });
+
 btnAddToSlider.addEventListener('click', function (e) {
   e.preventDefault();
   const item = clothes.find(
@@ -165,4 +167,12 @@ btnAddToSlider.addEventListener('click', function (e) {
   );
   sliderView.addToSlider(item);
   modalView.closeModal();
+});
+
+////////////////////////////////////////////////////
+//// INITS
+
+initiateSlider().then(() => init());
+displayClothes().then(() => {
+  initiateModal();
 });
