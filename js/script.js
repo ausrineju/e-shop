@@ -1,4 +1,13 @@
 'use strict';
+
+import {
+  getSliderItems,
+  sliderItems,
+  clothes,
+  getClothes,
+  availableImages,
+} from './model.js';
+
 const nav = document.querySelector('.nav');
 const goToSection = document.querySelector('.nav__links');
 const header = document.querySelector('.header');
@@ -18,13 +27,13 @@ const imgDescription = document.querySelector('.descr_modal');
 const imgDescriptionInput = document.querySelector(
   '.image__description__input'
 );
-const availableImages = [];
+//const availableImages = [];
 let currentImage;
 let openModalBtn;
 let images = document.getElementsByClassName('image');
 let slides;
-let clothes = [];
-let sliderItems = [];
+//let clothes = [];
+//let sliderItems = [];
 
 ///////////////////////////////
 ////// ADD NEW SLIDE
@@ -123,36 +132,23 @@ const closeModal = function () {
 };
 
 ///////////////////////////////////////////////////////////////////////
-////////// FETCH PAGE DATA
-const getJSON = function (url) {
-  return fetch(url).then(resp => {
-    if (!resp.ok) throw new Error(`No items found ${resp.status}`);
-    return resp.json();
-  });
-};
+////////// DISPLAY SLIDER ITEMS AND CLOTHES
 
-(async function () {
-  const data = await getJSON('http://localhost:3000/availableImages');
-  data.forEach(item => availableImages.push(item));
-})();
-
-const getSliderItems = async function (parentEl) {
-  const data = await getJSON('http://localhost:3000/sliderItems');
-  data.forEach(function (item) {
-    sliderItems.push(item);
+const showSlides = async function (parentEl) {
+  await getSliderItems();
+  sliderItems.forEach(function (item) {
     const html = newSlide(item);
-
     parentEl.insertAdjacentHTML('afterbegin', html);
   });
   slides = document.querySelectorAll('.slide');
 };
 
-const getClothes = async function () {
-  const data = await getJSON('http://localhost:3000/clothes');
-  data.forEach(function (item) {
+const showClothes = async function (parentEl) {
+  await getClothes();
+  clothes.forEach(function (item) {
     clothes.push(item);
     const html = newClothing(item);
-    clothesRow.insertAdjacentHTML('afterbegin', html);
+    parentEl.insertAdjacentHTML('afterbegin', html);
   });
 };
 
@@ -215,14 +211,14 @@ const init = () => {
 
 const displayClothes = function () {
   return new Promise(function (resolve, reject) {
-    resolve(getClothes());
+    resolve(showClothes(clothesRow));
     reject(new Error('Could not get clothes'));
   });
 };
 
 const initiateSlider = function () {
   return new Promise(function (resolve, reject) {
-    resolve(getSliderItems(slider));
+    resolve(showSlides(slider));
     reject(new Error('Could not get shoes'));
   });
 };
