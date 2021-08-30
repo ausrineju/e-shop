@@ -6,6 +6,7 @@ class SliderView {
   #slides;
 
   render(data) {
+    if (!data || (Array.isArray(data) && data.length === 0)) return;
     this.#data = data;
     const slide = this.newSlide(this.#data);
     this.#parentEl.insertAdjacentHTML('afterbegin', slide);
