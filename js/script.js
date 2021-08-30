@@ -1,5 +1,5 @@
 'use strict';
-
+import sliderView from './views/sliderView.js';
 import {
   getSliderItems,
   sliderItems,
@@ -11,10 +11,8 @@ import {
 const nav = document.querySelector('.nav');
 const goToSection = document.querySelector('.nav__links');
 const header = document.querySelector('.header');
-const slider = document.querySelector('.slider');
 const btnLeft = document.querySelector('.slider__btn--left');
 const btnRight = document.querySelector('.slider__btn--right');
-const dotContainer = document.querySelector('.dots');
 const clothesRow = document.querySelector('.row');
 const modal = document.querySelector('.modal');
 const closeModalBtn = document.querySelector('.close-modal');
@@ -27,27 +25,8 @@ const imgDescription = document.querySelector('.descr_modal');
 const imgDescriptionInput = document.querySelector(
   '.image__description__input'
 );
-//const availableImages = [];
 let currentImage;
 let openModalBtn;
-let images = document.getElementsByClassName('image');
-let slides;
-//let clothes = [];
-//let sliderItems = [];
-
-///////////////////////////////
-////// ADD NEW SLIDE
-const newSlide = item => {
-  return `<div class="slide">
-      <h2 class="slider__header">${item.brand}</h2>
-      <img src=${item.src} alt="Photo 1" />
-      <div class="media-body">
-        <h5 class="caption">Description</h5>
-        <p>${item.description}</p>
-        <a href="#" class="stretched-link">Our page.</a>
-      </div>
-    </div>`;
-};
 
 ///////////////////////////////
 ////// ADD NEW CLOTHING ITEM
@@ -93,29 +72,17 @@ const removeImage = function (e) {
   closeModal();
 };
 
-///////////////////////////////////////////////////////////////////////
-//// ADD IMAGE TO SLIDER
-const addToSlider = function (e) {
+btnRemove.addEventListener('click', removeImage);
+btnAddImage.addEventListener('click', addImage);
+btnUpdate.addEventListener('click', updateImage);
+btnAddToSlider.addEventListener('click', function (e) {
   e.preventDefault();
   const item = clothes.find(
     el => el.src === currentImage.children[0].src.slice(-17)
   );
-  const html = newSlide(item);
-  slider.insertAdjacentHTML('afterbegin', html);
-  slides = document.querySelectorAll('.slide');
-  addDotToSlide();
+  sliderView.addToSlider(item);
   closeModal();
-  goToSlide(0);
-  activateDot(0);
-};
-
-btnRemove.addEventListener('click', removeImage);
-btnAddToSlider.addEventListener(
-  'click',
-  addToSlider.bind([clothes, currentImage])
-);
-btnAddImage.addEventListener('click', addImage);
-btnUpdate.addEventListener('click', updateImage);
+});
 
 ///////////////////////////////////////////////////////////////////////
 /////////// MODAL WINDOW
@@ -134,13 +101,11 @@ const closeModal = function () {
 ///////////////////////////////////////////////////////////////////////
 ////////// DISPLAY SLIDER ITEMS AND CLOTHES
 
-const showSlides = async function (parentEl) {
+const showSlides = async function () {
   await getSliderItems();
   sliderItems.forEach(function (item) {
-    const html = newSlide(item);
-    parentEl.insertAdjacentHTML('afterbegin', html);
+    sliderView.render(item);
   });
-  slides = document.querySelectorAll('.slide');
 };
 
 const showClothes = async function (parentEl) {
@@ -152,61 +117,10 @@ const showClothes = async function (parentEl) {
   });
 };
 
-///////////////////////////////////////////////////////////////////////
-//////SLIDER FUNCTIONS
-let currentSlide = 0;
-const goToSlide = slide => {
-  slides.forEach((s, index) => {
-    s.style.transform = `translateX(${120 * (index - slide)}%)`;
-  });
-};
-
-const nextSlide = () => {
-  if (currentSlide !== slides.length - 1) currentSlide++;
-  else currentSlide = 0;
-  goToSlide(currentSlide);
-  activateDot(currentSlide);
-};
-
-const prevSlide = () => {
-  if (currentSlide === 0) {
-    currentSlide = slides.length - 1;
-  } else currentSlide--;
-
-  goToSlide(currentSlide);
-  activateDot(currentSlide);
-};
-
-const createDots = function () {
-  slides.forEach(function (s, i) {
-    dotContainer.insertAdjacentHTML(
-      'beforeend',
-      `<button class="dots__dot" data-slide="${i}"></button>`
-    );
-  });
-};
-
-const addDotToSlide = function () {
-  dotContainer.insertAdjacentHTML(
-    'beforeend',
-    `<button class="dots__dot" data-slide="${slides.length - 1}"></button>`
-  );
-};
-
-const activateDot = function (slide) {
-  document
-    .querySelectorAll('.dots__dot')
-    .forEach(dot => dot.classList.remove('dots__dot--active'));
-
-  document
-    .querySelector(`.dots__dot[data-slide="${slide}"]`)
-    .classList.add('dots__dot--active');
-};
-
 const init = () => {
-  goToSlide(0);
-  createDots();
-  activateDot(0);
+  sliderView.goToSlide(0);
+  sliderView.createDots();
+  sliderView.activateDot(0);
 };
 
 const displayClothes = function () {
@@ -218,7 +132,7 @@ const displayClothes = function () {
 
 const initiateSlider = function () {
   return new Promise(function (resolve, reject) {
-    resolve(showSlides(slider));
+    resolve(showSlides());
     reject(new Error('Could not get shoes'));
   });
 };
@@ -259,20 +173,16 @@ goToSection.addEventListener('click', function (e) {
   }
 });
 
-btnRight.addEventListener('click', nextSlide);
-btnLeft.addEventListener('click', prevSlide);
+btnRight.addEventListener('click', sliderView.nextSlide.bind(sliderView));
+btnLeft.addEventListener('click', sliderView.prevSlide.bind(sliderView));
 
 document.addEventListener('keydown', function (e) {
   if (e.key === 'ArrowLeft') prevSlide();
   e.key === 'ArrowRight' && nextSlide();
 });
 
-dotContainer.addEventListener('click', function (e) {
-  if (e.target.classList.contains('dots__dot')) {
-    const [slide] = e.target.dataset.slide;
-    goToSlide(slide);
-    activateDot(slide);
-  }
+sliderView.dotContainer.addEventListener('click', function (e) {
+  sliderView.dotClicked(e);
 });
 
 closeModalBtn.addEventListener('click', closeModal);
