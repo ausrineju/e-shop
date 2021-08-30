@@ -3,6 +3,7 @@ class ClothesView {
   #data;
 
   render(data) {
+    if (!data || (Array.isArray(data) && data.length === 0)) return;
     this.#data = data;
     const html = this.newClothing(this.#data);
     this.#parentEl.insertAdjacentHTML('afterbegin', html);

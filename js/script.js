@@ -128,8 +128,8 @@ btnRight.addEventListener('click', sliderView.nextSlide.bind(sliderView));
 btnLeft.addEventListener('click', sliderView.prevSlide.bind(sliderView));
 
 document.addEventListener('keydown', function (e) {
-  if (e.key === 'ArrowLeft') prevSlide();
-  e.key === 'ArrowRight' && nextSlide();
+  if (e.key === 'ArrowLeft') sliderView.prevSlide();
+  e.key === 'ArrowRight' && sliderView.nextSlide();
 });
 
 sliderView.dotContainer.addEventListener('click', function (e) {
