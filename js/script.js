@@ -1,5 +1,6 @@
 'use strict';
 import sliderView from './views/sliderView.js';
+import modalView from './views/modalView.js';
 import {
   getSliderItems,
   sliderItems,
@@ -14,18 +15,13 @@ const header = document.querySelector('.header');
 const btnLeft = document.querySelector('.slider__btn--left');
 const btnRight = document.querySelector('.slider__btn--right');
 const clothesRow = document.querySelector('.row');
-const modal = document.querySelector('.modal');
+const btnUpdateDescription = document.querySelector('.btn--updateImage');
 const closeModalBtn = document.querySelector('.close-modal');
 const overlay = document.querySelector('.overlay');
 const btnRemove = document.querySelector('.btn-remove');
 const btnUpdate = document.querySelector('.btn-update');
 const btnAddToSlider = document.querySelector('.btn-sliderAdd');
 const btnAddImage = document.querySelector('.btn-addImage');
-const imgDescription = document.querySelector('.descr_modal');
-const imgDescriptionInput = document.querySelector(
-  '.image__description__input'
-);
-let currentImage;
 let openModalBtn;
 
 ///////////////////////////////
@@ -49,54 +45,24 @@ const addImage = function () {
   initiateModal();
 };
 
-///////////////////////////////////////////////////////////////////////
-//// UPDATE IMAGE
-const updateImage = function (e) {
-  e.preventDefault();
-  imgDescription.classList.remove('hidden');
-  document
-    .querySelector('.btn--updateImage')
-    .addEventListener('click', function (e) {
-      e.preventDefault();
-      currentImage.children[1].textContent = imgDescriptionInput.value;
-      closeModal();
-    });
-};
-
-///////////////////////////////////////////////////////////////////////
-//// REMOVE IMAGE
-
-const removeImage = function (e) {
-  e.preventDefault();
-  currentImage.remove();
-  closeModal();
-};
-
-btnRemove.addEventListener('click', removeImage);
+btnRemove.addEventListener('click', function (e) {
+  modalView.removeImage(e);
+});
 btnAddImage.addEventListener('click', addImage);
-btnUpdate.addEventListener('click', updateImage);
+btnUpdate.addEventListener('click', function (e) {
+  modalView.updateImage(e);
+});
+btnUpdateDescription.addEventListener('click', function (e) {
+  modalView.updateDescription(e);
+});
 btnAddToSlider.addEventListener('click', function (e) {
   e.preventDefault();
   const item = clothes.find(
-    el => el.src === currentImage.children[0].src.slice(-17)
+    el => el.src === modalView.currentImage.children[0].src.slice(-17)
   );
   sliderView.addToSlider(item);
-  closeModal();
+  modalView.closeModal();
 });
-
-///////////////////////////////////////////////////////////////////////
-/////////// MODAL WINDOW
-const openModal = function (e) {
-  currentImage = e.target.closest('.image');
-  modal.classList.remove('hidden');
-  overlay.classList.remove('hidden');
-};
-
-const closeModal = function () {
-  modal.classList.add('hidden');
-  overlay.classList.add('hidden');
-  imgDescription.classList.add('hidden');
-};
 
 ///////////////////////////////////////////////////////////////////////
 ////////// DISPLAY SLIDER ITEMS AND CLOTHES
@@ -139,7 +105,11 @@ const initiateSlider = function () {
 
 const initiateModal = () => {
   openModalBtn = document.querySelectorAll('.show-modal');
-  openModalBtn.forEach(el => el.addEventListener('click', openModal));
+  openModalBtn.forEach(el =>
+    el.addEventListener('click', function (e) {
+      modalView.openModal(e);
+    })
+  );
 };
 
 ///////////////////////////////////////////////////////////////////////
@@ -185,8 +155,8 @@ sliderView.dotContainer.addEventListener('click', function (e) {
   sliderView.dotClicked(e);
 });
 
-closeModalBtn.addEventListener('click', closeModal);
-overlay.addEventListener('click', closeModal);
+closeModalBtn.addEventListener('click', modalView.closeModal.bind(modalView));
+overlay.addEventListener('click', modalView.closeModal.bind(modalView));
 
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
