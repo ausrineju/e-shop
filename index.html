@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" type="image/png" href="img/icon.png" />
+    <link rel="stylesheet" href="style.css" />
+    <title>ATLAS Online shopping</title>
+    <script defer src="js/script.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <!-- TOP NAVIGATION -->
+      <nav class="nav">
+        <img src="img/logo.png" alt="Atlas logo" class="nav__logo" id="logo" />
+        <ul class="nav__links">
+          <li class="nav__item">
+            <a class="nav__link" href="#section--1">Whats new</a>
+          </li>
+          <li class="nav__item">
+            <a class="nav__link" href="#section--2">Clothes & Accesories</a>
+          </li>
+        </ul>
+        <form class="login">
+          <input
+            type="text"
+            placeholder="username"
+            class="login__input login__input--user"
+          />
+          <input
+            type="password"
+            placeholder="password"
+            maxlength="8"
+            class="login__input login__input--pass"
+          />
+          <button class="login__btn">&rarr;</button>
+        </form>
+      </nav>
+    </header>
+    <section class="section" id="section--1">
+      <div class="slider">
+        <!-- <div class="slide">
+          <h2 class="slider__header">Nike</h2>
+          <img src="img/img-1.jpg" alt="Photo 1" />
+          <div class="media-body">
+            <h5 class="caption">Description</h5>
+            <p>Something</p>
+            <a href="#" class="stretched-link">Our page.</a>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h2 class="slider__header">Nike</h2>
+          <img src="img/img-2.jpg" alt="Photo 2" />
+          <div class="media-body">
+            <h5 class="caption">Description</h5>
+            <p>Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</p>
+            <a href="#" class="stretched-link">Our page.</a>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h2 class="slider__header">Nike</h2>
+          <img src="img/img-3.jpg" alt="Photo 3" />
+          <div class="media-body">
+            <h5 class="caption">Description</h5>
+            <p>Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</p>
+            <a href="#" class="stretched-link">Our page.</a>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h2 class="slider__header">Nike</h2>
+          <img src="img/img-4.jpg" alt="Photo 4" />
+          <div class="media-body">
+            <h5 class="caption">Description</h5>
+            <p>Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</p>
+            <a href="#" class="stretched-link">Our page.</a>
+          </div>
+        </div> -->
+
+        <button class="slider__btn slider__btn--left">&larr;</button>
+        <button class="slider__btn slider__btn--right">&rarr;</button>
+        <div class="dots"></div>
+      </div>
+    </section>
+
+    <section class="section" id="section--2">
+      <div class="section__title">
+        <h3 class="section__header">New clothes arivals coming soon ;)</h3>
+      </div>
+      <button class="btn-addImage">Add new image</button>
+      <div class="row">
+        <!-- <div class="image">
+          <img src="img/clothes-1.jpg" alt="Jacket" />
+          <span class="caption">Women Nike waterproof jacket</span>
+        </div>
+        <div class="image">
+          <img src="img/clothes-2.jpg" alt="T-Shirt" />
+          <span class="caption">Women Nike activewear t-shirt</span>
+        </div>
+        <div class="image">
+          <img src="img/clothes-3.jpg" alt="Fanny pack" />
+          <span class="caption">Nike waist band</span>
+        </div>
+        <div class="image">
+          <img src="img/clothes-4.jpg" alt="backpack" />
+          <span class="caption">Nike adventure backpack</span>
+        </div> -->
+      </div>
+    </section>
+    <div class="modal hidden">
+      <button class="close-modal">&times;</button>
+      <h1>Hi! What do you want to do with the picture? 😍</h1>
+      <form class="modal__form">
+        <button class="btn-sliderAdd">Add to slider &rarr;</button>
+        <button class="btn-remove">Remove &rarr;</button>
+        <button class="btn-update">Update &rarr;</button>
+        <div class="modal descr_modal hidden">
+          <form class="modal__form">
+            <label>Description</label>
+            <input class="image__description__input type="text" />
+            <button class="btn--updateImage">Update &rarr;</button>
+          </form>
+        </div>
+      </form>
+    </div>
+
+    <footer class="footer">
+      <ul class="footer__nav">
+        <li class="footer__item">
+          <a class="footer__link" href="#">About</a>
+        </li>
+        <li class="footer__item">
+          <a class="footer__link" href="#">Pricing</a>
+        </li>
+        <li class="footer__item">
+          <a class="footer__link" href="#">Terms of Use</a>
+        </li>
+        <li class="footer__item">
+          <a class="footer__link" href="#">Privacy Policy</a>
+        </li>
+        <li class="footer__item">
+          <a class="footer__link" href="#">Blog</a>
+        </li>
+        <li class="footer__item">
+          <a class="footer__link" href="#">Contact Us</a>
+        </li>
+      </ul>
+      <img src="img/icon.png" alt="Logo" class="footer__logo" />
+    </footer>
+    <div class="overlay hidden"></div>
+  </body>
+</html>
