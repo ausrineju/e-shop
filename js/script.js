@@ -1,13 +1,4 @@
 'use strict';
-// import {
-//   slider,
-//   slides,
-//   newSlide,
-//   addToSlider,
-//   nextSlide,
-//   prevSlide,
-//   init,
-// } from './slider.js';
 const nav = document.querySelector('.nav');
 const header = document.querySelector('.header');
 const slider = document.querySelector('.slider');
@@ -26,38 +17,7 @@ const imgDescription = document.querySelector('.descr_modal');
 const imgDescriptionInput = document.querySelector(
   '.image__description__input'
 );
-const availableImages = [
-  {
-    id: 'clothes-4',
-    src: 'img/clothes-5.jpg',
-    brand: 'Nike',
-    description: 'Lorem ipsum lorem ipsum lorem ipsum',
-  },
-  {
-    id: 'clothes-5',
-    src: 'img/clothes-6.jpg',
-    brand: 'Nike',
-    description: 'Lorem ipsum lorem ipsum lorem ipsum',
-  },
-  {
-    id: 'clothes-6',
-    src: 'img/clothes-7.jpg',
-    brand: 'Nike',
-    description: 'Lorem ipsum lorem ipsum lorem ipsum',
-  },
-  {
-    id: 'clothes-7',
-    src: 'img/clothes-8.jpg',
-    brand: 'Nike',
-    description: 'Lorem ipsum lorem ipsum lorem ipsum',
-  },
-  {
-    id: 'clothes-8',
-    src: 'img/clothes-9.jpg',
-    brand: 'Nike',
-    description: 'Lorem ipsum lorem ipsum lorem ipsum',
-  },
-];
+const availableImages = [];
 let currentImage;
 let openModalBtn;
 let images = document.getElementsByClassName('image');
@@ -169,6 +129,11 @@ const getJSON = function (url) {
     return resp.json();
   });
 };
+
+(async function () {
+  const data = await getJSON('http://localhost:3000/availableImages');
+  data.forEach(item => availableImages.push(item));
+})();
 
 const getSliderItems = async function (parentEl) {
   const data = await getJSON('http://localhost:3000/sliderItems');

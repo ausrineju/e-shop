@@ -56,5 +56,37 @@
       "brand": "Nike",
       "description": "Lorem ipsum lorem ipsum lorem ipsum"
     }
+  ],
+  "availableImages": [
+    {
+      "id": "clothes-4",
+      "src": "img/clothes-5.jpg",
+      "brand": "Nike",
+      "description": "Lorem ipsum lorem ipsum lorem ipsum"
+    },
+    {
+      "id": "clothes-5",
+      "src": "img/clothes-6.jpg",
+      "brand": "Nike",
+      "description": "Lorem ipsum lorem ipsum lorem ipsum"
+    },
+    {
+      "id": "clothes-6",
+      "src": "img/clothes-7.jpg",
+      "brand": "Nike",
+      "description": " Lorem ipsum lorem ipsum lorem ipsum"
+    },
+    {
+      "id": "clothes-7",
+      "src": "img/clothes-8.jpg",
+      "brand": "Nike",
+      "description": "Lorem ipsum lorem ipsum lorem ipsum"
+    },
+    {
+      "id": "clothes-8",
+      "src": "img/clothes-9.jpg",
+      "brand": "Nike",
+      "description": "Lorem ipsum lorem ipsum lorem ipsum"
+    }
   ]
 }
