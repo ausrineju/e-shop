@@ -1,5 +1,6 @@
 'use strict';
 const nav = document.querySelector('.nav');
+const goToSection = document.querySelector('.nav__links');
 const header = document.querySelector('.header');
 const slider = document.querySelector('.slider');
 const btnLeft = document.querySelector('.slider__btn--left');
@@ -251,6 +252,15 @@ headerObserver.observe(header);
 initiateSlider().then(() => init());
 displayClothes().then(() => {
   initiateModal();
+});
+
+goToSection.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
 });
 
 btnRight.addEventListener('click', nextSlide);
