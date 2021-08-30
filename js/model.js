@@ -1,19 +1,19 @@
+import {
+  API_SLIDER_URL,
+  API_CLOTHES_URL,
+  API_AVAILABLE_IMAGES_URL,
+} from './config.js';
+import { getJSON } from './helpers.js';
 export const sliderItems = [];
 export const clothes = [];
 export const availableImages = [];
 
 ///////////////////////////////////////////////////////////////////////
 ////////// FETCH PAGE DATA
-const getJSON = function (url) {
-  return fetch(url).then(resp => {
-    if (!resp.ok) throw new Error(`No items found ${resp.status}`);
-    return resp.json();
-  });
-};
 
 (async function () {
   try {
-    const data = await getJSON('http://localhost:3000/availableImages');
+    const data = await getJSON(`${API_AVAILABLE_IMAGES_URL}`);
     data.forEach(item => availableImages.push(item));
   } catch (err) {
     console.error(`Issues fetching available images ${err}`);
@@ -22,22 +22,24 @@ const getJSON = function (url) {
 
 export const getSliderItems = async function () {
   try {
-    const data = await getJSON('http://localhost:3000/sliderItems');
+    const data = await getJSON(`${API_SLIDER_URL}`);
     data.forEach(function (item) {
       sliderItems.push(item);
     });
   } catch (err) {
     console.error(`Issues fetching slider images ${err}`);
+    throw err;
   }
 };
 
 export const getClothes = async function () {
   try {
-    const data = await getJSON('http://localhost:3000/clothes');
+    const data = await getJSON(`${API_CLOTHES_URL}`);
     data.forEach(function (item) {
       clothes.push(item);
     });
   } catch (err) {
     console.error(`Issues fetching clothes ${err}`);
+    throw err;
   }
 };

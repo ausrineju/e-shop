@@ -41,18 +41,26 @@ btnAddImage.addEventListener('click', addImage);
 ////////// DISPLAY SLIDER ITEMS AND CLOTHES
 
 const showSlides = async function () {
-  await getSliderItems();
-  sliderItems.forEach(function (item) {
-    sliderView.render(item);
-  });
+  try {
+    await getSliderItems();
+    sliderItems.forEach(function (item) {
+      sliderView.render(item);
+    });
+  } catch (err) {
+    console.error(`Issue showing slides ${err}`);
+  }
 };
 
-const showClothes = async function (parentEl) {
-  await getClothes();
-  clothes.forEach(function (item) {
-    clothes.push(item);
-    clothesView.render(item);
-  });
+const showClothes = async function () {
+  try {
+    await getClothes();
+    clothes.forEach(function (item) {
+      clothes.push(item);
+      clothesView.render(item);
+    });
+  } catch (err) {
+    console.error(`Issue showing clothes ${err}`);
+  }
 };
 
 const init = () => {
