@@ -1,6 +1,7 @@
 'use strict';
 import sliderView from './views/sliderView.js';
 import modalView from './views/modalView.js';
+import clothesView from './views/clothesView.js';
 import {
   getSliderItems,
   sliderItems,
@@ -25,44 +26,16 @@ const btnAddImage = document.querySelector('.btn-addImage');
 let openModalBtn;
 
 ///////////////////////////////
-////// ADD NEW CLOTHING ITEM
-const newClothing = item => {
-  return `<div class="image">
-  <img class = "show-modal" src=${item.src} id = "${item.id}" alt="Jacket" />
-  <span class="caption">${item.description}</span>
-</div>`;
-};
-
-///////////////////////////////
 /// ADD NEW IMAGE
 const addImage = function () {
-  const html = newClothing(availableImages[0]);
+  clothesView.render(availableImages[0]);
   clothes.push(availableImages[0]);
-  clothesRow.insertAdjacentHTML('afterbegin', html);
   availableImages.shift();
   openModalBtn = document.querySelectorAll('.show-modal');
   if (availableImages.length === 0) btnAddImage.classList.add('hidden');
   initiateModal();
 };
-
-btnRemove.addEventListener('click', function (e) {
-  modalView.removeImage(e);
-});
 btnAddImage.addEventListener('click', addImage);
-btnUpdate.addEventListener('click', function (e) {
-  modalView.updateImage(e);
-});
-btnUpdateDescription.addEventListener('click', function (e) {
-  modalView.updateDescription(e);
-});
-btnAddToSlider.addEventListener('click', function (e) {
-  e.preventDefault();
-  const item = clothes.find(
-    el => el.src === modalView.currentImage.children[0].src.slice(-17)
-  );
-  sliderView.addToSlider(item);
-  modalView.closeModal();
-});
 
 ///////////////////////////////////////////////////////////////////////
 ////////// DISPLAY SLIDER ITEMS AND CLOTHES
@@ -78,8 +51,7 @@ const showClothes = async function (parentEl) {
   await getClothes();
   clothes.forEach(function (item) {
     clothes.push(item);
-    const html = newClothing(item);
-    parentEl.insertAdjacentHTML('afterbegin', html);
+    clothesView.render(item);
   });
 };
 
@@ -113,7 +85,7 @@ const initiateModal = () => {
 };
 
 ///////////////////////////////////////////////////////////////////////
-////STICKY HEADER
+/////////////////STICKY HEADER
 const obsCallback = entries => {
   const [entry] = entries;
   if (!entry.isIntersecting) nav.classList.add('sticky');
@@ -128,7 +100,8 @@ const headerObserver = new IntersectionObserver(obsCallback, obsOptions);
 headerObserver.observe(header);
 
 ///////////////////////////////////////////////////////////////////////
-//  EVENT HANDLERS
+///////////////  EVENT HANDLERS
+
 initiateSlider().then(() => init());
 displayClothes().then(() => {
   initiateModal();
@@ -155,6 +128,9 @@ sliderView.dotContainer.addEventListener('click', function (e) {
   sliderView.dotClicked(e);
 });
 
+///////////////////////////////////////////////////////////////////////
+///////////////  MODAL EVENT HANDLERS
+
 closeModalBtn.addEventListener('click', modalView.closeModal.bind(modalView));
 overlay.addEventListener('click', modalView.closeModal.bind(modalView));
 
@@ -162,4 +138,23 @@ document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
     closeModal();
   }
+});
+
+btnRemove.addEventListener('click', function (e) {
+  modalView.removeImage(e);
+});
+
+btnUpdate.addEventListener('click', function (e) {
+  modalView.updateImage(e);
+});
+btnUpdateDescription.addEventListener('click', function (e) {
+  modalView.updateDescription(e);
+});
+btnAddToSlider.addEventListener('click', function (e) {
+  e.preventDefault();
+  const item = clothes.find(
+    el => el.src === modalView.currentImage.children[0].src.slice(-17)
+  );
+  sliderView.addToSlider(item);
+  modalView.closeModal();
 });
